@@ -1,5 +1,5 @@
 import pandas as pd
-import os                 
+import os
 from sklearn.model_selection import train_test_split
 import logging
 import yaml
@@ -7,8 +7,7 @@ import yaml
 
 # Ensure the "logs" directory exists
 log_dir = 'logs'
-os.makedirs(log_dir, exist_ok=True) # checks whether logs are previously present or not
-# If logs are present already it wont overwrite, else it will create a dir
+os.makedirs(log_dir, exist_ok=True)
 
 
 # logging configuration
@@ -19,10 +18,9 @@ console_handler = logging.StreamHandler()
 console_handler.setLevel('DEBUG')
 
 log_file_path = os.path.join(log_dir, 'data_ingestion.log')
-file_handler = logging.FileHandler(log_file_path) # to explain file handler where to save the file
+file_handler = logging.FileHandler(log_file_path)
 file_handler.setLevel('DEBUG')
 
-# First we want time -> name -> level information -> and message
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 console_handler.setFormatter(formatter)
 file_handler.setFormatter(formatter)
@@ -47,7 +45,6 @@ def load_params(params_path: str) -> dict:
         logger.error('Unexpected error: %s', e)
         raise
 
-# loading the data
 def load_data(data_url: str) -> pd.DataFrame:
     """Load data from a CSV file."""
     try:
@@ -61,7 +58,6 @@ def load_data(data_url: str) -> pd.DataFrame:
         logger.error('Unexpected error occurred while loading the data: %s', e)
         raise
 
-# Preprocessing the data
 def preprocess_data(df: pd.DataFrame) -> pd.DataFrame:
     """Preprocess the data."""
     try:
@@ -76,7 +72,6 @@ def preprocess_data(df: pd.DataFrame) -> pd.DataFrame:
         logger.error('Unexpected error during preprocessing: %s', e)
         raise
 
-# Saving the data using OS module -> creating a raw sub folder and saving data there
 def save_data(train_data: pd.DataFrame, test_data: pd.DataFrame, data_path: str) -> None:
     """Save the train and test datasets."""
     try:
@@ -91,9 +86,9 @@ def save_data(train_data: pd.DataFrame, test_data: pd.DataFrame, data_path: str)
 
 def main():
     try:
-        #params = load_params(params_path='params.yaml')
-        #test_size = params['data_ingestion']['test_size']
-        test_size = 0.2
+        params = load_params(params_path='params.yaml')
+        test_size = params['data_ingestion']['test_size']
+        # test_size = 0.2
         data_path = 'https://raw.githubusercontent.com/vikashishere/Datasets/main/spam.csv'
         df = load_data(data_url=data_path)
         final_df = preprocess_data(df)

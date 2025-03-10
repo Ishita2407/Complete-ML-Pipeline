@@ -94,11 +94,11 @@ def save_data(df: pd.DataFrame, file_path: str) -> None:
 
 def main():
     try:
-        #params = load_params(params_path='params.yaml')
-        #max_features = params['feature_engineering']['max_features']
+        params = load_params(params_path='params.yaml')
+        max_features = params['feature_engineering']['max_features']
 
         # To decide no. of columns in feature engineered data
-        max_features = 50
+        # max_features = 50
 
         train_data = load_data('./data/interim/train_processed.csv')
         test_data = load_data('./data/interim/test_processed.csv')
